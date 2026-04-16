@@ -640,6 +640,26 @@
     }
     function borrarSesion() { if (confirm('¿Borrar la sesión guardada? (no afecta los datos actuales)')) { localStorage.removeItem(STORAGE_KEY); alert('Sesión borrada.'); } }
 
+    // Cargar sesion guardada al iniciar
+    function cargarSesionAuto() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return false;
+        try {
+            const binary = atob(saved);
+            const array = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) array[i] = binary.charCodeAt(i);
+            if (db) db.close();
+            db = new SQL.Database(array);
+            dbInitialized = true;
+            temaActivoId = null;
+            renderizarTodo();
+            return true;
+        } catch(e) {
+            console.error("Error al cargar sesión automática:", e);
+            return false;
+        }
+    }
+
     // ---------- EXPORTAR/IMPORTAR JSON (incluyendo proyecto_data) ----------
     function exportarTodoJSON() {
         const temasObj = [];
@@ -1002,7 +1022,12 @@
     // ---------- INICIALIZACIÓN ----------
     window.addEventListener('DOMContentLoaded', async () => {
         await initDatabase();
-        if (listarTemas().length === 0) {
+
+        // Intentar cargar sesión automática
+        const sesionCargada = cargarSesionAuto();
+
+        // Si no había sesión guardada y no hay temas, crear datos de ejemplo
+        if (!sesionCargada && listarTemas().length === 0) {
             const temaIA = crearTema("Inteligencia Artificial");
             const fuenteId = guardarFuente(temaIA, null, { titulo: "Deep Learning Book", url: "https://www.deeplearningbook.org/", fechaConsulta: "2016", tipo: "Libro", autores: "Goodfellow, I.; Bengio, Y.; Courville, A." });
             guardarNota(fuenteId, null, { ubicacion: "Capítulo 1, p. 12", texto: "Definición de aprendizaje profundo como representaciones jerárquicas.", fecha: "2025-03-10", categoria: "Hallazgo" });
@@ -1011,7 +1036,9 @@
             const fuenteCC = guardarFuente(temaCC, null, { titulo: "IPCC AR6", url: "https://www.ipcc.ch/report/ar6/", fechaConsulta: "2021", tipo: "Reporte", autores: "IPCC" });
             guardarNota(fuenteCC, null, { ubicacion: "Resumen técnico, p. 45", texto: "La temperatura global ha aumentado 1.1°C.", fecha: "2025-03-02", categoria: "Dato" });
         }
+
         renderizarTodo();
+
         initGoogleDrive();
 
         // Eventos generales
