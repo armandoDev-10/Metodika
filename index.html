@@ -1027,69 +1027,69 @@
         // Intentar cargar sesión automática
         const sesionCargada = cargarSesionAuto();
 
-// Si no había sesión guardada y no hay temas, crear datos de ejemplo
-if (!sesionCargada && listarTemas().length === 0) {
-    // --- TEMA 1: Inteligencia Artificial (modo normal, sin proyecto) ---
-    const temaIA = crearTema("Inteligencia Artificial");
-    const fuenteIA = guardarFuente(temaIA, null, {
-        titulo: "Deep Learning Book",
-        url: "https://www.deeplearningbook.org/",
-        fechaConsulta: "2016",
-        tipo: "Libro",
-        autores: "Goodfellow, I.; Bengio, Y.; Courville, A."
-    });
-    guardarNota(fuenteIA, null, {
-        ubicacion: "Capítulo 1, p. 12",
-        texto: "Definición de aprendizaje profundo como representaciones jerárquicas.",
-        fecha: "2025-03-10",
-        categoria: "Hallazgo"
-    });
-    guardarNota(fuenteIA, null, {
-        ubicacion: "Sección 5.3, p. 120",
-        texto: "Regularización: dropout y early stopping son clave.",
-        fecha: "2025-03-12",
-        categoria: "Propuesta"
-    });
-
-    // --- TEMA 2: Cambio Climático (con MODO PROYECTO activado y estructura completa) ---
-    const temaCC = crearTema("Cambio Climático");
-    // Fuente de ejemplo para este tema
-    const fuenteCC = guardarFuente(temaCC, null, {
-        titulo: "IPCC AR6 Synthesis Report",
-        url: "https://www.ipcc.ch/report/ar6/",
-        fechaConsulta: "2023",
-        tipo: "Reporte técnico",
-        autores: "IPCC"
-    });
-    guardarNota(fuenteCC, null, {
-        ubicacion: "Resumen para responsables de políticas, p. 45",
-        texto: "La temperatura global ha aumentado 1.1°C desde la era preindustrial.",
-        fecha: "2025-03-02",
-        categoria: "Dato"
-    });
-    guardarNota(fuenteCC, null, {
-        ubicacion: "Capítulo 3, sección 2",
-        texto: "Las emisiones de CO2 deben reducirse un 45% para 2030 respecto a 2010.",
-        fecha: "2025-03-05",
-        categoria: "Hallazgo"
-    });
-
-    // Estructura del proyecto para Cambio Climático (modo proyecto activado)
-    const proyectoEjemplo = {
-        modoActivo: true,
-        titulo: "Estrategias de mitigación del cambio climático en zonas urbanas",
-        preguntaInvestigacion: "¿Qué políticas de mitigación del cambio climático han demostrado mayor efectividad en ciudades de tamaño medio durante la última década?",
-        preguntasTrabajo: "1. ¿Cuáles son los principales factores que influyen en la adopción de energías renovables a nivel municipal?\n2. ¿Qué barreras económicas y sociales limitan la implementación de planes de movilidad sostenible?\n3. ¿Cómo se miden y comparan los resultados de diferentes estrategias de reducción de emisiones?",
-        objetivoGeneral: "Analizar la efectividad de distintas políticas de mitigación del cambio climático aplicadas en ciudades de tamaño medio entre 2015 y 2025.",
-        objetivosParticulares: "1. Identificar las políticas más recurrentes y sus contextos de aplicación.\n2. Evaluar los resultados cuantitativos reportados en términos de reducción de emisiones.\n3. Comparar la relación costo-beneficio de al menos tres estrategias diferentes.\n4. Proponer recomendaciones para la implementación en ciudades con características similares.",
-        secciones: [
-            { titulo: "Introducción", contenido: "El cambio climático representa uno de los mayores desafíos globales. Las ciudades de tamaño medio (100.000 - 500.000 habitantes) a menudo carecen de recursos para implementar medidas ambiciosas, pero su acumulación es clave para alcanzar metas nacionales. Este proyecto revisa la evidencia disponible sobre políticas exitosas y extrae lecciones aplicables." },
-            { titulo: "Metodología", contenido: "Revisión sistemática de literatura publicada entre 2015 y 2025 en bases de datos Scopus y Web of Science. Se incluirán estudios de caso, análisis cuantitativos y reportes institucionales. Las palabras clave incluyen: 'climate change mitigation', 'urban policies', 'medium-sized cities'." },
-            { titulo: "Resultados esperados", contenido: "Se espera identificar al menos tres modelos de intervención con evidencia sólida, así como factores críticos de éxito (gobernanza, financiamiento, participación ciudadana). También se analizarán las barreras más comunes." },
-            { titulo: "Conclusiones preliminares", contenido: "Aún en fase de recopilación de fuentes, se anticipa que las políticas de eficiencia energética en edificios públicos y el fomento de transporte no motorizado son las de menor costo y rápida implementación." }
-        ]
-    };
-    guardarProyectoData(temaCC, proyectoEjemplo);
+        // Si no había sesión guardada y no hay temas, crear datos de ejemplo
+        if (!sesionCargada && listarTemas().length === 0) {
+            // --- TEMA 1: Inteligencia Artificial (modo normal, sin proyecto) ---
+            const temaIA = crearTema("Inteligencia Artificial");
+            const fuenteIA = guardarFuente(temaIA, null, {
+                titulo: "Deep Learning Book",
+                url: "https://www.deeplearningbook.org/",
+                fechaConsulta: "2016",
+                tipo: "Libro",
+                autores: "Goodfellow, I.; Bengio, Y.; Courville, A."
+            });
+            guardarNota(fuenteIA, null, {
+                ubicacion: "Capítulo 1, p. 12",
+                texto: "Definición de aprendizaje profundo como representaciones jerárquicas.",
+                fecha: "2025-03-10",
+                categoria: "Hallazgo"
+            });
+            guardarNota(fuenteIA, null, {
+                ubicacion: "Sección 5.3, p. 120",
+                texto: "Regularización: dropout y early stopping son clave.",
+                fecha: "2025-03-12",
+                categoria: "Propuesta"
+            });
+        
+            // --- TEMA 2: Cambio Climático (con MODO PROYECTO activado y estructura completa) ---
+            const temaCC = crearTema("Cambio Climático");
+            // Fuente de ejemplo para este tema
+            const fuenteCC = guardarFuente(temaCC, null, {
+                titulo: "IPCC AR6 Synthesis Report",
+                url: "https://www.ipcc.ch/report/ar6/",
+                fechaConsulta: "2023",
+                tipo: "Reporte técnico",
+                autores: "IPCC"
+            });
+            guardarNota(fuenteCC, null, {
+                ubicacion: "Resumen para responsables de políticas, p. 45",
+                texto: "La temperatura global ha aumentado 1.1°C desde la era preindustrial.",
+                fecha: "2025-03-02",
+                categoria: "Dato"
+            });
+            guardarNota(fuenteCC, null, {
+                ubicacion: "Capítulo 3, sección 2",
+                texto: "Las emisiones de CO2 deben reducirse un 45% para 2030 respecto a 2010.",
+                fecha: "2025-03-05",
+                categoria: "Hallazgo"
+            });
+        
+            // Estructura del proyecto para Cambio Climático (modo proyecto activado)
+            const proyectoEjemplo = {
+                modoActivo: true,
+                titulo: "Estrategias de mitigación del cambio climático en zonas urbanas",
+                preguntaInvestigacion: "¿Qué políticas de mitigación del cambio climático han demostrado mayor efectividad en ciudades de tamaño medio durante la última década?",
+                preguntasTrabajo: "1. ¿Cuáles son los principales factores que influyen en la adopción de energías renovables a nivel municipal?\n2. ¿Qué barreras económicas y sociales limitan la implementación de planes de movilidad sostenible?\n3. ¿Cómo se miden y comparan los resultados de diferentes estrategias de reducción de emisiones?",
+                objetivoGeneral: "Analizar la efectividad de distintas políticas de mitigación del cambio climático aplicadas en ciudades de tamaño medio entre 2015 y 2025.",
+                objetivosParticulares: "1. Identificar las políticas más recurrentes y sus contextos de aplicación.\n2. Evaluar los resultados cuantitativos reportados en términos de reducción de emisiones.\n3. Comparar la relación costo-beneficio de al menos tres estrategias diferentes.\n4. Proponer recomendaciones para la implementación en ciudades con características similares.",
+                secciones: [
+                    { titulo: "Introducción", contenido: "El cambio climático representa uno de los mayores desafíos globales. Las ciudades de tamaño medio (100.000 - 500.000 habitantes) a menudo carecen de recursos para implementar medidas ambiciosas, pero su acumulación es clave para alcanzar metas nacionales. Este proyecto revisa la evidencia disponible sobre políticas exitosas y extrae lecciones aplicables." },
+                    { titulo: "Metodología", contenido: "Revisión sistemática de literatura publicada entre 2015 y 2025 en bases de datos Scopus y Web of Science. Se incluirán estudios de caso, análisis cuantitativos y reportes institucionales. Las palabras clave incluyen: 'climate change mitigation', 'urban policies', 'medium-sized cities'." },
+                    { titulo: "Resultados esperados", contenido: "Se espera identificar al menos tres modelos de intervención con evidencia sólida, así como factores críticos de éxito (gobernanza, financiamiento, participación ciudadana). También se analizarán las barreras más comunes." },
+                    { titulo: "Conclusiones preliminares", contenido: "Aún en fase de recopilación de fuentes, se anticipa que las políticas de eficiencia energética en edificios públicos y el fomento de transporte no motorizado son las de menor costo y rápida implementación." }
+                ]
+            };
+            guardarProyectoData(temaCC, proyectoEjemplo);
         }
 
         renderizarTodo();
