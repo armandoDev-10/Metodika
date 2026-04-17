@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
+        /* Tus estilos actuales (sin cambios) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, 'Segoe UI', 'Inter', sans-serif; }
         body { background: #f0f4f8; padding: 2rem 1.5rem; }
         .container { max-width: 1600px; margin: 0 auto; }
@@ -114,7 +115,7 @@
     </div>
 </div>
 
-<!-- Modales -->
+<!-- Modales (sin cambios) -->
 <div id="modalResultados" class="modal"><div class="modal-contenido"><h3>🔍 Resultados de búsqueda</h3><div id="resultadosLista"></div><div class="botones-modal"><button id="btnCerrarResultados" class="btn-sec">Cerrar</button></div></div></div>
 <div id="modalFuente" class="modal"><div class="modal-contenido"><h3 id="modalFuenteTitulo">➕ Fuente</h3><div class="campo"><label>Título</label><input type="text" id="fuenteTitulo"></div><div class="campo"><label>URL / DOI</label><input type="url" id="fuenteUrl"></div><div class="campo"><label>Fecha consulta (año)</label><input type="text" id="fuenteFecha" placeholder="Ej: 2023"></div><div class="campo"><label>Tipo</label><input type="text" id="fuenteTipo" placeholder="Artículo, libro..."></div><div class="campo"><label>Autores</label><input type="text" id="fuenteAutores" placeholder="Apellido, N.; Apellido2, N."></div><div class="botones-modal"><button id="btnGuardarFuente">Guardar</button><button id="btnCancelarFuente" class="btn-sec">Cancelar</button></div></div></div>
 <div id="modalNota" class="modal"><div class="modal-contenido"><h3 id="modalNotaTitulo">📝 Nota de lectura</h3><div class="campo"><label>📍 Ubicación</label><input type="text" id="notaUbicacion"></div><div class="campo"><label>📄 Nota</label><textarea id="notaTexto" rows="4"></textarea></div><div class="campo"><label>📅 Fecha</label><input type="date" id="notaFecha"></div><div class="campo"><label>🏷️ Categoría</label><input list="categoriasPredefinidas" id="notaCategoria" placeholder="Selecciona o escribe una categoría"><datalist id="categoriasPredefinidas"><option>Hallazgo</option><option>Debilidad</option><option>Propuesta</option><option>Oportunidad</option><option>Dato</option><option>Cita textual</option><option>Riesgo</option><option>Conclusión</option><option>Otro</option></datalist></div><div class="botones-modal"><button id="btnGuardarNota">Guardar</button><button id="btnCancelarNota" class="btn-sec">Cancelar</button></div></div></div>
@@ -298,7 +299,6 @@
         const fuentes = listarFuentes(tema.id);
         if (fuentes.length) {
             md += `## Referencias bibliográficas\n\n`;
-            // Ordenar alfabéticamente por el primer autor (o por el campo 'autores')
             const fuentesOrdenadas = [...fuentes];
             fuentesOrdenadas.sort((a, b) => {
                 const autorA = (a.autores || '').toLowerCase();
@@ -389,9 +389,9 @@
         function renderTabla(notas) {
             let html = `<table class="matriz-tabla" id="matrizHallazgosTabla"><thead><tr><th>Fuente</th><th>Autores/Año</th><th>Ubicación</th><th>Hallazgo / Nota</th><th>Categoría</th><th>Acción</th></tr></thead><tbody>`;
             for (let n of notas) {
-                html += `<tr data-nota-id="${n.id}"><td>${escapeHtml(n.fuente)}</td><td>${escapeHtml(n.autores)} ${n.anio ? `(${n.anio})` : ''}</td><td>${escapeHtml(n.ubicacion)}</td><td>${escapeHtml(n.texto)}</td><td><input type="text" class="categoria-input" data-id="${n.id}" value="${escapeHtml(n.categoria)}" list="categoriasList" style="width:100%;"><datalist id="categoriasList">${Array.from(new Set(todasNotas.map(nn => nn.categoria))).filter(c=>c).map(c=>`<option>${c}</option>`).join('')}</datalist></td><td><button class="guardar-categoria" data-id="${n.id}">💾 Guardar</button></td></tr>`;
+                html += `<tr data-nota-id="${n.id}"><td>${escapeHtml(n.fuente)}</td><td>${escapeHtml(n.autores)} ${n.anio ? `(${n.anio})` : ''}</td><td>${escapeHtml(n.ubicacion)}</td><td>${escapeHtml(n.texto)}</td><td><input type="text" class="categoria-input" data-id="${n.id}" value="${escapeHtml(n.categoria)}" list="categoriasList" style="width:100%;"><datalist id="categoriasList">${Array.from(new Set(todasNotas.map(nn => nn.categoria))).filter(c=>c).map(c=>`<option>${c}</option>`).join('')}</datalist></td><td><button class="guardar-categoria" data-id="${n.id}">💾 Guardar</button></tr>`;
             }
-            if (notas.length === 0) html += '<tr><td colspan="6">No hay notas con este filtro.</td></tr>';
+            if (notas.length === 0) html += '<tr><td colspan="6">No hay notas con este filtro.</tr>';
             html += `</tbody></table>`;
             contenedor.innerHTML = html;
             document.querySelectorAll('.guardar-categoria').forEach(btn => {
@@ -463,7 +463,7 @@
         if (!notas.length) html += '<p>No hay notas registradas.</p>';
         else {
             html += `<table class="matriz-tabla"><thead><tr><th>#</th><th>Ubicación</th><th>Categoría</th><th>Nota</th><th>Fecha</th></tr></thead><tbody>`;
-            notas.forEach((n, i) => { html += `<tr><td>${i+1}</td><td>${escapeHtml(n.ubicacion)}</td><td>${escapeHtml(n.categoria || '—')}</td><td>${escapeHtml(n.texto)}</td><td>${n.fecha || '—'}</td></tr>`; });
+            notas.forEach((n, i) => { html += `<tr><td>${i+1}</td><td>${escapeHtml(n.ubicacion)}</td><td>${escapeHtml(n.categoria || '—')}</td><td>${escapeHtml(n.texto)}</td><td>${n.fecha || '—'}</tr>`; });
             html += `</tbody></table>`;
         }
         document.getElementById('matrizContenido').innerHTML = html;
@@ -856,6 +856,7 @@
             div.addEventListener('click', (e) => { if (e.target.tagName !== 'BUTTON') seleccionarTema(t.id); });
             container.appendChild(div);
         });
+        // Los eventos de data-editar-tema y data-eliminar-tema se manejarán por delegación, pero aquí mantenemos los listeners de tema (porque son clics en el div, no en botones)
         document.querySelectorAll('[data-editar-tema]').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); editarTema(btn.getAttribute('data-editar-tema')); }));
         document.querySelectorAll('[data-eliminar-tema]').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); if (confirm('¿Eliminar tema y todo su contenido?')) { eliminarTema(btn.getAttribute('data-eliminar-tema')); renderizarTodo(); } }));
     }
@@ -905,14 +906,14 @@
             });
         }
         detalleElem.innerHTML = html;
-        document.getElementById('btnAgregarFuente')?.addEventListener('click', () => abrirModalFuente(null));
-        document.getElementById('btnGenerarPDFTema')?.addEventListener('click', () => generarPDFTema(tema.id));
-        document.getElementById('btnMarkdownTema')?.addEventListener('click', () => { const md = generarMarkdownTema(tema.id); abrirEditorMarkdown(md, `reporte_tema_${tema.nombre.replace(/\s/g, '_')}.md`); });
-        document.getElementById('btnMatrizHallazgos')?.addEventListener('click', () => mostrarMatrizHallazgos(tema.id));
+        
+        // Los listeners de eventos se manejarán globalmente, excepto los de input y change que aún necesitan asignación local
+        // Checkbox modo proyecto
         const chkModo = document.getElementById('modoProyectoCheckbox');
         if (chkModo) {
             chkModo.addEventListener('change', (e) => { proyectoData.modoActivo = e.target.checked; guardarProyectoData(tema.id, proyectoData); renderizarDetalle(); });
         }
+        // Listeners de input para campos del proyecto
         if (proyectoData.modoActivo) {
             const inputTitulo = document.getElementById('proyectoTitulo');
             const inputPregInv = document.getElementById('proyectoPreguntaInv');
@@ -925,6 +926,7 @@
             if (inputPregTrab) inputPregTrab.addEventListener('input', guardarCampo);
             if (inputObjGen) inputObjGen.addEventListener('input', guardarCampo);
             if (inputObjPart) inputObjPart.addEventListener('input', guardarCampo);
+            
             const btnAgregarSeccion = document.getElementById('btnAgregarSeccion');
             if (btnAgregarSeccion) {
                 btnAgregarSeccion.addEventListener('click', () => { if (!proyectoData.secciones) proyectoData.secciones = []; proyectoData.secciones.push({ titulo: 'Nueva sección', contenido: '' }); guardarProyectoData(tema.id, proyectoData); renderizarDetalle(); });
@@ -950,15 +952,7 @@
                 });
             }
         }
-        document.querySelectorAll('[data-editar-fuente]').forEach(btn => btn.addEventListener('click', () => abrirModalFuente(btn.getAttribute('data-editar-fuente'))));
-        document.querySelectorAll('[data-eliminar-fuente]').forEach(btn => btn.addEventListener('click', () => { if(confirm('¿Eliminar fuente y sus notas?')) eliminarFuente(btn.getAttribute('data-eliminar-fuente')); renderizarTodoDebounced(); }));
-        document.querySelectorAll('[data-matriz-fuente]').forEach(btn => btn.addEventListener('click', () => mostrarMatrizFuente(btn.getAttribute('data-matriz-fuente'))));
-        document.querySelectorAll('[data-cita-fuente]').forEach(btn => btn.addEventListener('click', () => mostrarCitaAPA(btn.getAttribute('data-cita-fuente'))));
-        document.querySelectorAll('[data-markdown-fuente]').forEach(btn => btn.addEventListener('click', () => { const fuente = obtenerFuente(btn.getAttribute('data-markdown-fuente')); if (fuente) { const md = generarMarkdownFuente(fuente); abrirEditorMarkdown(md, `reporte_${fuente.titulo.replace(/\s/g, '_')}.md`); } }));
-        document.querySelectorAll('[data-agregar-nota]').forEach(btn => btn.addEventListener('click', () => abrirModalNota(btn.getAttribute('data-agregar-nota'), null)));
-        document.querySelectorAll('[data-importar-notas-json]').forEach(btn => { btn.addEventListener('click', () => { pendingFuenteIdForJSON = btn.getAttribute('data-importar-notas-json'); document.getElementById('jsonNotasInput').value = `[\n  {\n    "ubicacion": "p. 23",\n    "texto": "Ejemplo de nota",\n    "categoria": "Hallazgo"\n  }\n]`; document.getElementById('modalImportarNotasJSON').style.display = 'flex'; }); });
-        document.querySelectorAll('[data-editar-nota]').forEach(btn => { const [fId, nId] = btn.getAttribute('data-editar-nota').split('|'); btn.addEventListener('click', () => abrirModalNota(fId, nId)); });
-        document.querySelectorAll('[data-eliminar-nota]').forEach(btn => btn.addEventListener('click', () => { if(confirm('¿Eliminar nota?')) eliminarNota(btn.getAttribute('data-eliminar-nota')); renderizarTodoDebounced(); }));
+        // Nota: ya no asignamos eventos a los botones dinámicos (data-editar-fuente, etc.) porque se manejarán por delegación global.
     }
 
     function renderizarTodo() {
@@ -1020,7 +1014,7 @@
     }
     function cerrarModalNota() { document.getElementById('modalNota').style.display = 'none'; notaEnEdicion = null; }
 
-    // ---------- INICIALIZACIÓN ----------
+    // ---------- INICIALIZACIÓN CON DELEGACIÓN DE EVENTOS ----------
     window.addEventListener('DOMContentLoaded', async () => {
         await initDatabase();
 
@@ -1053,7 +1047,6 @@
         
             // --- TEMA 2: Cambio Climático (con MODO PROYECTO activado y estructura completa) ---
             const temaCC = crearTema("Cambio Climático");
-            // Fuente de ejemplo para este tema
             const fuenteCC = guardarFuente(temaCC, null, {
                 titulo: "IPCC AR6 Synthesis Report",
                 url: "https://www.ipcc.ch/report/ar6/",
@@ -1074,7 +1067,6 @@
                 categoria: "Hallazgo"
             });
         
-            // Estructura del proyecto para Cambio Climático (modo proyecto activado)
             const proyectoEjemplo = {
                 modoActivo: true,
                 titulo: "Estrategias de mitigación del cambio climático en zonas urbanas",
@@ -1093,56 +1085,147 @@
         }
 
         renderizarTodo();
-
         initGoogleDrive();
-
-        // Eventos generales
-        document.getElementById('btnCrearTema').addEventListener('click', () => { const nombre = document.getElementById('nuevoTemaNombre').value; if(crearTema(nombre)) { document.getElementById('nuevoTemaNombre').value = ''; renderizarTodo(); } });
-        document.getElementById('btnExportarDB').addEventListener('click', exportarDB);
-        document.getElementById('btnImportarReemplazar').addEventListener('click', () => document.getElementById('importDBReemplazar').click());
-        document.getElementById('btnImportarCombinar').addEventListener('click', () => document.getElementById('importDBCombinar').click());
-        document.getElementById('btnGuardarDrive').addEventListener('click', () => saveToDrive());
-        document.getElementById('importDBReemplazar').addEventListener('change', e => { if(e.target.files.length) importarDBReemplazar(e.target.files[0]); e.target.value = ''; });
-        document.getElementById('importDBCombinar').addEventListener('change', e => { if(e.target.files.length) importarDBCombinar(e.target.files[0]); e.target.value = ''; });
-        document.getElementById('btnGenerarPDFGlobal').addEventListener('click', generarPDFGlobal);
-        document.getElementById('btnMarkdownGlobal').addEventListener('click', () => { let mdGlobal = ''; const temas = listarTemas(); for (let t of temas) mdGlobal += generarMarkdownTema(t.id); abrirEditorMarkdown(mdGlobal, `reporte_global_${new Date().toISOString().slice(0,19)}.md`); });
-        document.getElementById('btnGuardarFuente').addEventListener('click', guardarFuenteModal);
-        document.getElementById('btnCancelarFuente').addEventListener('click', cerrarModalFuente);
-        document.getElementById('btnGuardarNota').addEventListener('click', guardarNotaModal);
-        document.getElementById('btnCancelarNota').addEventListener('click', cerrarModalNota);
-        document.getElementById('btnBuscar').addEventListener('click', () => buscarGlobal(document.getElementById('buscarInput').value));
-        document.getElementById('btnLimpiarBusqueda').addEventListener('click', () => document.getElementById('buscarInput').value = '');
-        document.getElementById('btnCerrarResultados').addEventListener('click', () => document.getElementById('modalResultados').style.display = 'none');
-        document.getElementById('btnCerrarMatriz').addEventListener('click', () => document.getElementById('modalMatriz').style.display = 'none');
-        document.getElementById('btnExportarMatrizCSV').addEventListener('click', exportarMatrizCSV);
-        document.getElementById('btnCopiarCita').addEventListener('click', copiarCita);
-        document.getElementById('btnCerrarCita').addEventListener('click', () => document.getElementById('modalCita').style.display = 'none');
-        document.getElementById('btnCopiarMarkdown').addEventListener('click', copiarMarkdown);
-        document.getElementById('btnDescargarMarkdown').addEventListener('click', descargarMarkdownDesdeEditor);
-        document.getElementById('btnCerrarMarkdown').addEventListener('click', () => document.getElementById('modalMarkdown').style.display = 'none');
-        document.getElementById('editorMarkdown').addEventListener('input', actualizarVistaPrevia);
         configurarBarraHerramientas();
-        document.getElementById('btnGuardarSesion').addEventListener('click', guardarSesion);
-        document.getElementById('btnCargarSesion').addEventListener('click', cargarSesion);
-        document.getElementById('btnBorrarSesion').addEventListener('click', borrarSesion);
-        document.getElementById('btnExportarTodoJSON').addEventListener('click', exportarTodoJSON);
-        document.getElementById('btnExportarTemaJSON').addEventListener('click', exportarTemaJSON);
-        document.getElementById('btnImportarJSONAdd').addEventListener('click', () => document.getElementById('importJSONAdd').click());
-        document.getElementById('btnReemplazarTodoJSON').addEventListener('click', () => document.getElementById('importJSONReplace').click());
-        document.getElementById('importJSONAdd').addEventListener('change', e => { if(e.target.files.length) importarJSONAdd(e.target.files[0]); e.target.value = ''; });
-        document.getElementById('importJSONReplace').addEventListener('change', e => { if(e.target.files.length) reemplazarTodoConJSON(e.target.files[0]); e.target.value = ''; });
 
-        const modalJSON = document.getElementById('modalImportarNotasJSON');
-        document.getElementById('btnConfirmarImportarNotasJSON').addEventListener('click', () => { if (pendingFuenteIdForJSON) { const jsonText = document.getElementById('jsonNotasInput').value; if (importarNotasJSONdesdeTexto(pendingFuenteIdForJSON, jsonText)) renderizarTodo(); modalJSON.style.display = 'none'; pendingFuenteIdForJSON = null; } else { alert('No se identificó la fuente destino.'); modalJSON.style.display = 'none'; } });
-        document.getElementById('btnCancelarImportarNotasJSON').addEventListener('click', () => { modalJSON.style.display = 'none'; pendingFuenteIdForJSON = null; });
+        // ---------- DELEGACIÓN DE EVENTOS (UN SOLO LISTENER PARA TODOS LOS BOTONES) ----------
+        document.body.addEventListener('click', (e) => {
+            // Obtener el botón más cercano (para casos donde se haga clic en icono o span dentro del botón)
+            const btn = e.target.closest('button');
+            if (!btn) return;
+
+            const id = btn.id;
+
+            // Mapeo de ID a función (para botones con ID único)
+            const acciones = {
+                'btnCrearTema': () => {
+                    const nombre = document.getElementById('nuevoTemaNombre').value;
+                    if (crearTema(nombre)) {
+                        document.getElementById('nuevoTemaNombre').value = '';
+                        renderizarTodo();
+                    }
+                },
+                'btnGuardarSesion': () => guardarSesion(),
+                'btnCargarSesion': () => cargarSesion(),
+                'btnBorrarSesion': () => borrarSesion(),
+                'btnExportarDB': () => exportarDB(),
+                'btnImportarReemplazar': () => document.getElementById('importDBReemplazar').click(),
+                'btnImportarCombinar': () => document.getElementById('importDBCombinar').click(),
+                'btnGuardarDrive': () => saveToDrive(),
+                'btnGenerarPDFGlobal': () => generarPDFGlobal(),
+                'btnMarkdownGlobal': () => {
+                    let mdGlobal = '';
+                    const temas = listarTemas();
+                    for (let t of temas) mdGlobal += generarMarkdownTema(t.id);
+                    abrirEditorMarkdown(mdGlobal, `reporte_global_${new Date().toISOString().slice(0,19)}.md`);
+                },
+                'btnExportarTodoJSON': () => exportarTodoJSON(),
+                'btnExportarTemaJSON': () => exportarTemaJSON(),
+                'btnImportarJSONAdd': () => document.getElementById('importJSONAdd').click(),
+                'btnReemplazarTodoJSON': () => document.getElementById('importJSONReplace').click(),
+                'btnBuscar': () => buscarGlobal(document.getElementById('buscarInput').value),
+                'btnLimpiarBusqueda': () => document.getElementById('buscarInput').value = '',
+                'btnCerrarResultados': () => document.getElementById('modalResultados').style.display = 'none',
+                'btnCerrarMatriz': () => document.getElementById('modalMatriz').style.display = 'none',
+                'btnExportarMatrizCSV': () => exportarMatrizCSV(),
+                'btnCopiarCita': () => copiarCita(),
+                'btnCerrarCita': () => document.getElementById('modalCita').style.display = 'none',
+                'btnCopiarMarkdown': () => copiarMarkdown(),
+                'btnDescargarMarkdown': () => descargarMarkdownDesdeEditor(),
+                'btnCerrarMarkdown': () => document.getElementById('modalMarkdown').style.display = 'none',
+                'btnGuardarFuente': () => guardarFuenteModal(),
+                'btnCancelarFuente': () => cerrarModalFuente(),
+                'btnGuardarNota': () => guardarNotaModal(),
+                'btnCancelarNota': () => cerrarModalNota(),
+                'btnConfirmarImportarNotasJSON': () => {
+                    if (pendingFuenteIdForJSON) {
+                        const jsonText = document.getElementById('jsonNotasInput').value;
+                        if (importarNotasJSONdesdeTexto(pendingFuenteIdForJSON, jsonText)) renderizarTodo();
+                        document.getElementById('modalImportarNotasJSON').style.display = 'none';
+                        pendingFuenteIdForJSON = null;
+                    } else {
+                        alert('No se identificó la fuente destino.');
+                        document.getElementById('modalImportarNotasJSON').style.display = 'none';
+                    }
+                },
+                'btnCancelarImportarNotasJSON': () => {
+                    document.getElementById('modalImportarNotasJSON').style.display = 'none';
+                    pendingFuenteIdForJSON = null;
+                },
+                'btnAgregarFuente': () => abrirModalFuente(null),
+                'btnGenerarPDFTema': () => { if (temaActivoId) generarPDFTema(temaActivoId); },
+                'btnMarkdownTema': () => {
+                    if (temaActivoId) {
+                        const md = generarMarkdownTema(temaActivoId);
+                        const tema = listarTemas().find(t => t.id === temaActivoId);
+                        abrirEditorMarkdown(md, `reporte_tema_${tema.nombre.replace(/\s/g, '_')}.md`);
+                    }
+                },
+                'btnMatrizHallazgos': () => { if (temaActivoId) mostrarMatrizHallazgos(temaActivoId); }
+            };
+
+            if (acciones[id]) {
+                e.preventDefault();
+                acciones[id]();
+                return;
+            }
+
+            // Manejar botones con atributos data-* (dinámicos)
+            if (btn.matches('[data-editar-tema]')) {
+                editarTema(btn.getAttribute('data-editar-tema'));
+            } else if (btn.matches('[data-eliminar-tema]')) {
+                if (confirm('¿Eliminar tema y todo su contenido?')) {
+                    eliminarTema(btn.getAttribute('data-eliminar-tema'));
+                    renderizarTodo();
+                }
+            } else if (btn.matches('[data-editar-fuente]')) {
+                abrirModalFuente(btn.getAttribute('data-editar-fuente'));
+            } else if (btn.matches('[data-eliminar-fuente]')) {
+                if (confirm('¿Eliminar fuente y sus notas?')) {
+                    eliminarFuente(btn.getAttribute('data-eliminar-fuente'));
+                    renderizarTodoDebounced();
+                }
+            } else if (btn.matches('[data-matriz-fuente]')) {
+                mostrarMatrizFuente(btn.getAttribute('data-matriz-fuente'));
+            } else if (btn.matches('[data-cita-fuente]')) {
+                mostrarCitaAPA(btn.getAttribute('data-cita-fuente'));
+            } else if (btn.matches('[data-markdown-fuente]')) {
+                const fuente = obtenerFuente(btn.getAttribute('data-markdown-fuente'));
+                if (fuente) {
+                    const md = generarMarkdownFuente(fuente);
+                    abrirEditorMarkdown(md, `reporte_${fuente.titulo.replace(/\s/g, '_')}.md`);
+                }
+            } else if (btn.matches('[data-agregar-nota]')) {
+                abrirModalNota(btn.getAttribute('data-agregar-nota'), null);
+            } else if (btn.matches('[data-importar-notas-json]')) {
+                pendingFuenteIdForJSON = btn.getAttribute('data-importar-notas-json');
+                document.getElementById('jsonNotasInput').value = `[\n  {\n    "ubicacion": "p. 23",\n    "texto": "Ejemplo de nota",\n    "categoria": "Hallazgo"\n  }\n]`;
+                document.getElementById('modalImportarNotasJSON').style.display = 'flex';
+            } else if (btn.matches('[data-editar-nota]')) {
+                const [fId, nId] = btn.getAttribute('data-editar-nota').split('|');
+                abrirModalNota(fId, nId);
+            } else if (btn.matches('[data-eliminar-nota]')) {
+                if (confirm('¿Eliminar nota?')) {
+                    eliminarNota(btn.getAttribute('data-eliminar-nota'));
+                    renderizarTodoDebounced();
+                }
+            } else if (btn.classList.contains('eliminar-seccion')) {
+                // Eliminar sección del modo proyecto
+                const idx = parseInt(btn.getAttribute('data-idx'));
+                if (!isNaN(idx) && temaActivoId) {
+                    const proyectoData = obtenerProyectoData(temaActivoId);
+                    if (proyectoData && proyectoData.secciones) {
+                        proyectoData.secciones.splice(idx, 1);
+                        guardarProyectoData(temaActivoId, proyectoData);
+                        renderizarDetalle();
+                    }
+                }
+            }
+        });
+
+        // Listeners para cerrar modales con click en el overlay (fondo)
         window.addEventListener('click', (e) => {
-            if(e.target === modalJSON) { modalJSON.style.display = 'none'; pendingFuenteIdForJSON = null; }
-            if(e.target === document.getElementById('modalResultados')) document.getElementById('modalResultados').style.display = 'none';
-            if(e.target === document.getElementById('modalFuente')) cerrarModalFuente();
-            if(e.target === document.getElementById('modalNota')) cerrarModalNota();
-            if(e.target === document.getElementById('modalMatriz')) document.getElementById('modalMatriz').style.display = 'none';
-            if(e.target === document.getElementById('modalCita')) document.getElementById('modalCita').style.display = 'none';
-            if(e.target === document.getElementById('modalMarkdown')) document.getElementById('modalMarkdown').style.display = 'none';
+            if (e.target.classList.contains('modal')) e.target.style.display = 'none';
         });
     });
 </script>
